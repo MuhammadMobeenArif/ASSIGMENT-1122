@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Task Manager</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="myDIV" class="header">
+    <h2 style="margin:2px">My To Do List</h2>
+    <input type="text" id="myInput" placeholder="">
+   
+  </div>
+  
+  
+   <span onclick="newElement()" class="addBtn">Add</span>
+   <input type="text" id="myInput" placeholder="">
+  
+  <div class="container">
+    <h1>Task Manager</h1>
+    <input type="text" id="search" placeholder="Search tasks...">
+    <ul id="myUL">
+      <li >Hit the gym</li>
+      <li >Pay bills</li>
+      <li>Meet George</li>
+      <li>Buy eggs</li>
+      <li >Read a book</li>
+      <li >Organize office</li>
+    </ul><button onclick="addTask()">Add</button>
+    </div>
+    <div class="task-input">
+      <input type="text" id="new-task" placeholder="Add a new task">
+      
+    <ul id="task-list"></ul>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
