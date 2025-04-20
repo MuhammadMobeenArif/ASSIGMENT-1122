@@ -1,122 +1,185 @@
-function addTask() {
-  const taskInput = document.getElementById('new-task');
-  const taskText = taskInput.value.trim();
-  if (taskText === '') return;
 
-  const taskList = document.getElementById('task-list');
+let input = document.getElementById("UserInput");
+let UserButton = document.querySelector(".button1");
+let ul = document.querySelector("ul");
 
-  const li = document.createElement('li');
-  const span = document.createElement('span');
-  span.className = 'task-text';
-  span.textContent = taskText;
-
-  const actions = document.createElement('div');
-  actions.className = 'actions';
-
-  const editBtn = document.createElement('button');
-  editBtn.textContent = 'Edit';
-  editBtn.onclick = () => editTask(span);
-
-  const deleteBtn = document.createElement('button');
-  deleteBtn.textContent = 'Delete';
-  deleteBtn.className = 'delete';
-  deleteBtn.onclick = () => li.remove();
-
-  actions.appendChild(editBtn);
-  actions.appendChild(deleteBtn);
-
-  li.appendChild(span);
-  li.appendChild(actions);
-
-  taskList.appendChild(li);
-  taskInput.value = '';
-}
-
-function editTask(span) {
-  const currentText = span.textContent;
-  const input = document.createElement('input');
-  input.type = 'text';
-  input.value = currentText;
-  input.className = 'task-text';
-
-  const parent = span.parentElement;
-  parent.replaceChild(input, span);
-
-  input.focus();
-  input.onblur = () => {
-    if (input.value.trim() === '') {
-      parent.remove();
-    } else {
-      span.textContent = input.value.trim();
-      parent.replaceChild(span, input);
-    }
-  };
-
-  input.onkeydown = (e) => {
-    if (e.key === 'Enter') input.blur();
-  };
-}
-
-document.getElementById('search').addEventListener('input', function () {
-  const keyword = this.value.toLowerCase();
-  const tasks = document.querySelectorAll('#task-list li');
-
-  tasks.forEach(task => {
-    const text = task.querySelector('.task-text').textContent.toLowerCase();
-    task.style.display = text.includes(keyword) ? '' : 'none';
-  });
+ul.addEventListener('click', (e) => {
+  if (e.target.tagName === "LI") {
+    e.target.style.textDecoration = "line-through";
+  }
 });
-var myNodelist = document.getElementsByTagName("LI");
-var i;
-for (i = 0; i < myNodelist.length; i++) {
-  var span = document.createElement("SPAN");
-  var txt = document.createTextNode("\u00D7");
-  span.className = "close";
-  span.appendChild(txt);
-  myNodelist[i].appendChild(span);
-}
 
-// Click on a close button to hide the current list item
-var close = document.getElementsByClassName("close");
-var i;
-for (i = 0; i < close.length; i++) {
-  close[i].onclick = function() {
-    var div = this.parentElement;
-    div.style.display = "none";
+UserButton.addEventListener("click", () => {
+  addTodo();
+});
+
+input.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    addTodo();
+  }
+});
+
+function addTodo() {
+  let userText = input.value.trim();
+  if (userText !== "") {
+    let li = document.createElement("li");
+    li.style.display = "flex";
+    li.style.justifyContent = "space-between";
+    li.style.alignItems = "center";
+    li.style.padding = "8px 12px";
+    li.style.margin = "5px 0";
+    li.style.border = "none";
+    li.style.borderRadius = "20px";
+    li.style.columnGap = "7px";
+
+    let span = document.createElement("span");
+    span.textContent = userText;
+
+    let buttonContainer = document.createElement("div");
+    buttonContainer.style.display = "flex";
+    buttonContainer.style.gap = "8px";
+
+    let deleteBtn = document.createElement("button");
+    deleteBtn.innerHTML = `<i class="fa-solid fa-trash"></i>`;
+    Object.assign(deleteBtn.style, {
+      border: "none",
+      background: "#f8d7da",
+      cursor: "pointer",
+      width: "35px",
+      height: "35px",
+      borderRadius: "50%",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center"
+    });
+
+    let EditBtn = document.createElement("button");
+    EditBtn.innerHTML = `<i class="fa-solid fa-pen-to-square"></i>`;
+    Object.assign(EditBtn.style, {
+      border: "none",
+      background: "#f8d7da",
+      cursor: "pointer",
+      width: "35px",
+      height: "35px",
+      borderRadius: "50%",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center"
+    });
+
+    deleteBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      li.remove();
+    });
+
+    EditBtn.addEventListener("click", () => {
+      span.style.display = "none";
+
+      let EditInput = document.createElement("input");
+      EditInput.type = "text";
+      EditInput.value = span.textContent;
+      Object.assign(EditInput.style, {
+        flex: "1",
+        padding: "5px",
+        marginRight: "5px",
+        border: "none",
+        outline: "none",
+        borderRadius: "10px"
+      });
+
+      let SaveBtn = document.createElement("button");
+      SaveBtn.textContent = "Save";
+      Object.assign(SaveBtn.style, {
+        border: "none",
+        background: "#F7D2Ef",
+        // padding: "6px 10px",
+        width: "58px",
+        height: "32px",
+        fontSize: "13px",
+        fontFamily: "font-family: Arial, Helvetica, sans-serif",
+        textAlign: "center",
+        cursor: "pointer",
+        borderRadius: "15px"
+      });
+
+      SaveBtn.addEventListener("mouseover", () => {
+        SaveBtn.style.background = "#FFFFFF";
+      });
+      
+      SaveBtn.addEventListener("mouseout", () => {
+        SaveBtn.style.background = "#F7D2Ef";
+      });
+
+      let CancleBtn = document.createElement("button");
+      CancleBtn.textContent = "Cancel";
+      Object.assign(CancleBtn.style, {
+        // padding: "6px 10px",
+        width: "58px",
+        height: "32px",
+        fontSize: "13px",
+        fontFamily: "font-family: Arial, Helvetica, sans-serif",
+        textAlign: "center",
+        border: "none",
+        cursor: "pointer",
+        background: "#F7D2Ef",
+        borderRadius: "15px"
+      });
+
+      CancleBtn.addEventListener("mouseover", () => {
+        CancleBtn.style.background = "#FFFFFF";
+      });
+      
+      CancleBtn.addEventListener("mouseout", () => {
+        CancleBtn.style.background = "#F7D2Ef";
+      });
+
+      EditBtn.style.display = "none";
+      deleteBtn.style.display = "none";
+
+      li.insertBefore(EditInput, span);
+      li.insertBefore(SaveBtn, buttonContainer);
+      li.insertBefore(CancleBtn, buttonContainer);
+
+      function Save() {
+        let newtext = EditInput.value.trim();
+        if (newtext !== "") {
+          span.textContent = newtext;
+        }
+        Cancle();
+      }
+
+      function Cancle() {
+        EditInput.remove();
+        SaveBtn.remove();
+        CancleBtn.remove();
+        span.style.display = "inline";
+        EditBtn.style.display = "flex";
+        deleteBtn.style.display = "flex";
+      }
+
+      SaveBtn.addEventListener("click", Save);
+      CancleBtn.addEventListener("click", Cancle);
+
+      EditInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          Save();
+        } else if (e.key === "Escape") {
+          Cancle();
+        }
+      });
+
+      EditInput.focus();
+    });
+
+    buttonContainer.appendChild(EditBtn);
+    buttonContainer.appendChild(deleteBtn);
+
+    li.appendChild(span);
+    li.appendChild(buttonContainer);
+    ul.appendChild(li);
+    input.value = "";
   }
 }
 
-// Add a "checked" symbol when clicking on a list item
-var list = document.querySelector('ul');
-list.addEventListener('click', function(ev) {
-  if (ev.target.tagName === 'LI') {
-    ev.target.classList.toggle('checked');
-  }
-}, false);
 
-// Create a new list item when clicking on the "Add" button
-function newElement() {
-  var li = document.createElement("li");
-  var inputValue = document.getElementById("myInput").value;
-  var t = document.createTextNode(inputValue);
-  li.appendChild(t);
-  if (inputValue === '') {
-    alert("You must write something!");
-  } else {
-    document.getElementById("myUL").appendChild(li);
-  }
-  document.getElementById("myInput").value = "";
 
-  var span = document.createElement("SPAN");
-  var txt = document.createTextNode("\u00D7");
-  span.className = "close";
-  span.appendChild(txt);
-  li.appendChild(span);
-
-  for (i = 0; i < close.length; i++) {
-    close[i].onclick = function() {
-      var div = this.parentElement;
-      div.style.display = "none";
-    }
-  }
-}
